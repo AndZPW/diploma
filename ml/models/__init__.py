@@ -1,3 +1,3 @@
 from .roberta import *
-from .bigru import GRUModel
+from .bigru import BIGRUModel
 from .bilstm import BILSTMModel
