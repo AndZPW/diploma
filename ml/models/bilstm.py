@@ -3,7 +3,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import *
 from tensorflow.keras.layers import Bidirectional
 from tensorflow.keras.layers import LSTM
-
+import visualkeras
 
 class BILSTMModel:
 
@@ -18,12 +18,14 @@ class BILSTMModel:
         self.model.add(Dropout(0.5))
         self.model.add(Dense(64, activation='relu'))
         self.model.add(Dropout(0.5))
-        self.model.add(Dense(29, activation='softmax'))
+        self.model.add(Dense(14, activation='softmax'))
 
     def compile(self):
         self.model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
     def summary(self):
+        visualkeras.layered_view(self.model, legend=True).save('layered_architecture.png')
+
         return self.model.summary()
 
     def predict(self, data):
