@@ -7,13 +7,19 @@ from datasets import Dataset
 
 class BERTModel:
 
-    def __init__(self, num_labels=29, model_name="FacebookAI/roberta-base"):
-        self.model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=num_labels,ignore_mismatched_sizes=True)
+    def __init__(self, num_labels=29, model_name="SamLowe/roberta-base-go_emotions"):
+        self.model = AutoModelForSequenceClassification.from_pretrained(
+            model_name,
+            num_labels=num_labels,
+            problem_type="single_label_classification",
+            ignore_mismatched_sizes=True
+        )
         self.model.gradient_checkpointing_enable()
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
+
         self.args = None
 
-    def compile(self, learning_rate=0.01):
+    def compile(self, learning_rate=0.001):
         batch_size = 32
         self.args = TrainingArguments('outputs', learning_rate=learning_rate, warmup_ratio=0.1,
                                       fp16=True, evaluation_strategy="epoch", per_device_train_batch_size=batch_size,
